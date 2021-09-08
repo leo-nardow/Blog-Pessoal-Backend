@@ -45,7 +45,7 @@ public class UsuarioController {
 	}
 	
 	@GetMapping("/{id_usuario}")
-	public ResponseEntity<UsuarioModel> buscarPorId(@PathVariable(value = "id_usuario") Long idUsuario) {
+	public ResponseEntity<UsuarioModel> findById(@PathVariable(value = "id_usuario") Long idUsuario) {
 		Optional<UsuarioModel> objetoUsuario = repository.findById(idUsuario);
 		
 		if(objetoUsuario.isPresent()) {
