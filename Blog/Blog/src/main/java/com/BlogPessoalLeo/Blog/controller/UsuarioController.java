@@ -86,7 +86,7 @@ public class UsuarioController {
 	
 
 	
-	@PostMapping("/salvar")
+	@PostMapping("/criar")
 	public ResponseEntity<UsuarioModel> cadastrarUsuario(@Valid @RequestBody UsuarioModel novoUsuario) {
 		return ResponseEntity.status(201).body(repository.save(novoUsuario));
 	}
