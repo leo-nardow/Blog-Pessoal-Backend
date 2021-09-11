@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.BlogPessoalLeo.Blog.model.UsuarioModel;
+import com.BlogPessoalLeo.Blog.model.util.UsuarioDTO;
 import com.BlogPessoalLeo.Blog.repository.UsuarioRepository;
+import com.BlogPessoalLeo.Blog.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
 	
 	private @Autowired UsuarioRepository repository;
+	private @Autowired UsuarioService service;
 	
 	//GET
 	
@@ -47,7 +50,6 @@ public class UsuarioController {
 	@GetMapping("/{id_usuario}")
 	public ResponseEntity<UsuarioModel> findById(@PathVariable(value = "id_usuario") Long idUsuario) {
 		Optional<UsuarioModel> objetoUsuario = repository.findById(idUsuario);
-		
 		if(objetoUsuario.isPresent()) {
 			return ResponseEntity.status(200).body(objetoUsuario.get());
 		} else {
@@ -55,7 +57,7 @@ public class UsuarioController {
 		}
 	}
 	
-	@GetMapping("/nome/{nome_usuario")
+	@GetMapping("/nome/{nome_usuario}")
 	public ResponseEntity<List<UsuarioModel>> buscarPorNome(@PathVariable(value = "nome_usuario") String nome) {
 		List<UsuarioModel> objetoNome = repository.findAllByNomeContainingIgnoreCase(nome);
 		
@@ -83,8 +85,16 @@ public class UsuarioController {
 	
 	//POST
 	
-	
-
+	@PostMapping("/salvar")
+	public ResponseEntity<Object> salvar(@Valid @RequestBody UsuarioModel novoUsuario) {
+		Optional<Object> objetoOptional = service.cadastrarUsuario(novoUsuario);
+		
+		if (objetoOptional.isEmpty()) {
+			return ResponseEntity.status(400).build();
+		} else {
+			return ResponseEntity.status(201).body(objetoOptional.get());
+		}
+	}
 	
 	@PostMapping("/criar")
 	public ResponseEntity<UsuarioModel> cadastrarUsuario(@Valid @RequestBody UsuarioModel novoUsuario) {
@@ -99,9 +109,31 @@ public class UsuarioController {
 	
 	//PUT
 	
+	@PutMapping("/credenciais")
+	public ResponseEntity<Object> credenciais(UsuarioDTO usuarioParaAutenticar, Long idUsuario) {
+		Optional<?> objetoOptional = service.pegarCredenciais(usuarioParaAutenticar);
+		
+		if (objetoOptional.isEmpty()) {
+			return ResponseEntity.status(400).build();
+		} else {
+			return ResponseEntity.status(201).body(objetoOptional.get());
+		}
+	}
+	
 	@PutMapping("/atualizar")
 	public ResponseEntity<UsuarioModel> atualizarUsuario (@Valid @RequestBody UsuarioModel atualizadoUsuario) {
 		return ResponseEntity.status(201).body(repository.save(atualizadoUsuario));
+	}
+	
+	@PutMapping("/alterar")
+	public ResponseEntity<Object> alterarUsuario(@Valid @RequestBody UsuarioDTO usuarioParaAlterar) {
+		Optional<?> objetoAlterado = service.alterarUsuario(usuarioParaAlterar);
+		
+		if (objetoAlterado.isPresent()) {
+			return ResponseEntity.status(201).body(objetoAlterado.get());
+		} else {
+			return ResponseEntity.status(400).build();
+		}
 	}
 	
 	//DELETE
