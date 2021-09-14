@@ -18,15 +18,15 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	private @Autowired UserDetailsService service;
 	
 	@Bean
-	public PasswordEncoder senhaEncoder() {
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers(HttpMethod.POST,"/usuario/cadastrar").permitAll()
-			.antMatchers(HttpMethod.PUT, "/usuario/login").permitAll()
+			.antMatchers(HttpMethod.POST,"/user/register").permitAll()
+			.antMatchers(HttpMethod.PUT, "/user/login").permitAll()
 			.antMatchers(HttpMethod.OPTIONS).permitAll()
 			.anyRequest().authenticated()
 			.and().httpBasic()
@@ -41,7 +41,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		auth.inMemoryAuthentication()
 			.withUser("admin")
-			.password(senhaEncoder().encode("admin"))
+			.password(passwordEncoder().encode("admin"))
 			.authorities("ROLE_USER");
 	}
 	

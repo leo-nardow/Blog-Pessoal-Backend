@@ -15,9 +15,9 @@ public class BlogApplication {
 	
 	@Autowired 
 	@RequestMapping 
-	public String BoasVindas()
+	public String greeting()
 	{
-		return "Bem vindo ao Blog Pessoal";
+		return "Bem-vindo ao Blog Pessoal";
 	}
 
 	public static void main(String[] args) {

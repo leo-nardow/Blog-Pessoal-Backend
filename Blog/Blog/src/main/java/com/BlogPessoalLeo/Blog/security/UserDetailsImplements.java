@@ -6,29 +6,29 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.BlogPessoalLeo.Blog.model.UsuarioModel;
+import com.BlogPessoalLeo.Blog.model.UserModel;
 
 public class UserDetailsImplements implements UserDetails{
 	private static final long serialVersionUID = 1L;
 	
 	private String email;
-	private String senha;
-	private List<GrantedAuthority> autorizacoes;
+	private String password;
+	private List<GrantedAuthority> authorizations;
 	
 	
-	public UserDetailsImplements(UsuarioModel usuario) {
-		this.email = usuario.getEmail();
-		this.senha = usuario.getSenha();
+	public UserDetailsImplements(UserModel user) {
+		this.email = user.getEmail();
+		this.password = user.getPassword();
 	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return autorizacoes;		
+		return authorizations;		
 	}
 	
 	@Override
 	public String getPassword() {
-		return senha;
+		return password;
 	}
 	
 	@Override
