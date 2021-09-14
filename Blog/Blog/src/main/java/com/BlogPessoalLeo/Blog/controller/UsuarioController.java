@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.BlogPessoalLeo.Blog.model.UsuarioModel;
@@ -68,8 +67,19 @@ public class UsuarioController {
 		}
 	}
 	
-	@GetMapping("/email")
-	public ResponseEntity<UsuarioModel> buscarPorEmail(@RequestParam(value = "") String email) {
+	@GetMapping("/user/{usuario}")
+	public ResponseEntity<List<UsuarioModel>> buscarPorUsuario(@PathVariable(value = "usuario") String usuario) {
+		List<UsuarioModel> objetoNome = repository.findAllByNomeContainingIgnoreCase(usuario);
+		
+		if(objetoNome.isEmpty()) {
+			return ResponseEntity.status(204).build();
+		} else {
+			return ResponseEntity.status(200).body(objetoNome);			
+		}
+	}
+	
+	@GetMapping("/email/{email_usuario}")
+	public ResponseEntity<UsuarioModel> buscarPorEmail(@PathVariable(value = "email_usuario") String email) {
 		return repository.findByEmail(email)
 				.map(emailencontrado -> ResponseEntity.ok(emailencontrado))
 				.orElse(ResponseEntity.notFound().build());	
@@ -110,7 +120,7 @@ public class UsuarioController {
 	//PUT
 	
 	@PutMapping("/credenciais")
-	public ResponseEntity<Object> credenciais(UsuarioDTO usuarioParaAutenticar, Long idUsuario) {
+	public ResponseEntity<Object> credenciais(@Valid @RequestBody UsuarioDTO usuarioParaAutenticar) {
 		Optional<?> objetoOptional = service.pegarCredenciais(usuarioParaAutenticar);
 		
 		if (objetoOptional.isEmpty()) {

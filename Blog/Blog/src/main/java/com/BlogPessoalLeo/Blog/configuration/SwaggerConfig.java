@@ -19,12 +19,13 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 public class SwaggerConfig {
+	
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
 				.apis(RequestHandlerSelectors
-						.basePackage("com.BlogPessoalLeo.Blog.controller;"))
+						.basePackage("com.BlogPessoalLeo.Blog.controller"))
 				.paths(PathSelectors.any())
 				.build()
 				.apiInfo(metadata())
@@ -37,8 +38,8 @@ public class SwaggerConfig {
 				.title("API - Blog Pessoal Leo")
 				.description("Projeto API Spring - Blog Pessoal Leo")
 				.version("1.0.0")
-				.license("Apache License Version 2.0")
-				.licenseUrl("http://localhost:8080/")
+				.license("MIT License")
+				.licenseUrl("https://github.com/leo-nardow/Projeto-Blog-Pessoal/blob/main/LICENSE")
 				.contact(contact())
 				.build();
 		
@@ -46,7 +47,7 @@ public class SwaggerConfig {
 	
 	private static Contact contact() {
 		return new Contact("Leonardo Almeida",
-				"https://github.com/leo_nardow",
+				"https://github.com/leo-nardow",
 				"leonardoalmeida2703@gmail.com");
 	}
 

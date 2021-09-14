@@ -25,8 +25,9 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers(HttpMethod.POST,"/usuario/criar").permitAll()
+			.antMatchers(HttpMethod.POST,"/usuario/salvar").permitAll()
 			.antMatchers(HttpMethod.PUT, "/usuario/credenciais").permitAll()
+			.antMatchers(HttpMethod.OPTIONS).permitAll()
 			.anyRequest().authenticated()
 			.and().httpBasic()
 			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -37,5 +38,16 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(service);
+		
+		auth.inMemoryAuthentication()
+			.withUser("root")
+			.password(passwordEncoder().encode("root"))
+			.authorities("ROLE_USER");
+	}
+	
+	
+	private BCryptPasswordEncoder passwordEncoder() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

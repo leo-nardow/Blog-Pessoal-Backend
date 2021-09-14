@@ -9,7 +9,17 @@ public class UsuarioDTO {
 	private @NotBlank String senha;
 
 	private Long id;
+	private String usuario;
 	private String nome;
+	
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	private String token;
 
 	public String getEmail() {
@@ -36,12 +46,12 @@ public class UsuarioDTO {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getToken() {

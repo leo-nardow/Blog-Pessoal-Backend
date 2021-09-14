@@ -16,6 +16,9 @@ import com.BlogPessoalLeo.Blog.repository.UsuarioRepository;
 public class UsuarioService {
 	private @Autowired UsuarioRepository repository;
 	
+	/*
+	 * Cadastrar usuario
+	 */
 	public Optional<Object> cadastrarUsuario(UsuarioModel novoUsuario) {
 		return repository.findByEmail(novoUsuario.getEmail())
 				.map(usuarioexistente -> {
@@ -28,19 +31,21 @@ public class UsuarioService {
 				});
 	}
 	
+	/*
+	 * Login
+	 */
 	public Optional<?> pegarCredenciais(UsuarioDTO usuarioParaAutenticar) {
 		return repository.findByEmail(usuarioParaAutenticar.getEmail())
 				.map(usuarioexistente -> {
 					BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-					
 					if (encoder.matches(usuarioParaAutenticar.getSenha(), usuarioexistente.getSenha())) {
-						
 						String estruturaBasic = usuarioParaAutenticar.getEmail() + ":" + usuarioParaAutenticar.getSenha();
 						byte[] autorizacaoBase64 = Base64.encodeBase64(estruturaBasic.getBytes(Charset.forName("US-ASCII")));
 						String autorizacaoHeader = "Basic " + new String(autorizacaoBase64);
 						
 						usuarioParaAutenticar.setToken(autorizacaoHeader);
 						usuarioParaAutenticar.setId(usuarioexistente.getIdUsuario());
+						usuarioParaAutenticar.setUsuario(usuarioexistente.getUsuario());
 						usuarioParaAutenticar.setNome(usuarioexistente.getNome());
 						usuarioParaAutenticar.setSenha(usuarioexistente.getSenha());
 						
@@ -59,7 +64,7 @@ public class UsuarioService {
 					BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 					String senhaCriptografada = encoder.encode(usuarioParaAlterar.getSenha());
 					
-					usuarioexistente.setNome(usuarioParaAlterar.getNome());
+					usuarioexistente.setUsuario(usuarioParaAlterar.getUsuario());
 					usuarioexistente.setSenha(senhaCriptografada);
 					
 					return Optional.ofNullable(repository.save(usuarioexistente));
