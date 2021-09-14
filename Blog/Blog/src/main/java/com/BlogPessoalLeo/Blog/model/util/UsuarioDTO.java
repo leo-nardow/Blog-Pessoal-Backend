@@ -1,14 +1,13 @@
 package com.BlogPessoalLeo.Blog.model.util;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class UsuarioDTO {
 
-	private @NotBlank @Email String email;
+	private @NotBlank String email;
 	private @NotBlank String senha;
 
-	private Long id;
+	private Long idUsuario;
 	private String usuario;
 	private String nome;
 	
@@ -38,12 +37,12 @@ public class UsuarioDTO {
 		this.senha = senha;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getIdUsuario() {
+		return idUsuario;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdUsuario(Long idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	public String getUsuario() {

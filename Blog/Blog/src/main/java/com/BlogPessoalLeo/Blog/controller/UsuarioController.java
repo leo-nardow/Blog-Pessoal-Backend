@@ -29,7 +29,6 @@ public class UsuarioController {
 	private @Autowired UsuarioService service;
 	
 	//GET
-	
 	@GetMapping("/todos")
 	public ResponseEntity<List<UsuarioModel>> pegarTodos() {
 		
@@ -39,11 +38,6 @@ public class UsuarioController {
 		}else {
 			return ResponseEntity.status(200).body(objetoLista);
 		}
-	}
-	
-	@GetMapping("/todes")
-	public ResponseEntity<List<UsuarioModel>> pegarTodes() {
-		return ResponseEntity.ok(repository.findAll());
 	}
 	
 	@GetMapping("/{id_usuario}")
@@ -69,7 +63,7 @@ public class UsuarioController {
 	
 	@GetMapping("/user/{usuario}")
 	public ResponseEntity<List<UsuarioModel>> buscarPorUsuario(@PathVariable(value = "usuario") String usuario) {
-		List<UsuarioModel> objetoNome = repository.findAllByNomeContainingIgnoreCase(usuario);
+		List<UsuarioModel> objetoNome = repository.findAllByUsuarioContainingIgnoreCase(usuario);
 		
 		if(objetoNome.isEmpty()) {
 			return ResponseEntity.status(204).build();
@@ -78,25 +72,17 @@ public class UsuarioController {
 		}
 	}
 	
-	@GetMapping("/email/{email_usuario}")
-	public ResponseEntity<UsuarioModel> buscarPorEmail(@PathVariable(value = "email_usuario") String email) {
+	@GetMapping("/email/{email}")
+	public ResponseEntity<UsuarioModel> buscarPorEmail(@PathVariable(value = "email") String email) {
 		return repository.findByEmail(email)
 				.map(emailencontrado -> ResponseEntity.ok(emailencontrado))
 				.orElse(ResponseEntity.notFound().build());	
 	}
 	
-	
-	/*@GetMapping("/email/{email}")
-	public ResponseEntity<UsuarioModel> buscarPorEmail(@PathVariable(value = "email") String email) {
-		return repository.findByEmail(email)
-				.map(emailencontrado -> ResponseEntity.ok(emailencontrado))
-				.orElse(ResponseEntity.notFound().build());	
-	}*/
-	
 	//POST
 	
-	@PostMapping("/salvar")
-	public ResponseEntity<Object> salvar(@Valid @RequestBody UsuarioModel novoUsuario) {
+	@PostMapping("/cadastrar")
+	public ResponseEntity<Object> cadastrar(@Valid @RequestBody UsuarioModel novoUsuario) {
 		Optional<Object> objetoOptional = service.cadastrarUsuario(novoUsuario);
 		
 		if (objetoOptional.isEmpty()) {
@@ -106,21 +92,10 @@ public class UsuarioController {
 		}
 	}
 	
-	@PostMapping("/criar")
-	public ResponseEntity<UsuarioModel> cadastrarUsuario(@Valid @RequestBody UsuarioModel novoUsuario) {
-		return ResponseEntity.status(201).body(repository.save(novoUsuario));
-	}
-	
-	/*
-	public ResponseEntity<UsuarioModel> cadastrarUsuario2(@Valid @RequestBody UsuarioModel novoUsuario) {
-	 
-		ResponseEntity<UsuarioModel>;
-	}*/
-	
 	//PUT
 	
-	@PutMapping("/credenciais")
-	public ResponseEntity<Object> credenciais(@Valid @RequestBody UsuarioDTO usuarioParaAutenticar) {
+	@PutMapping("/login")
+	public ResponseEntity<Object> login(@Valid @RequestBody UsuarioDTO usuarioParaAutenticar) {
 		Optional<?> objetoOptional = service.pegarCredenciais(usuarioParaAutenticar);
 		
 		if (objetoOptional.isEmpty()) {
@@ -130,13 +105,8 @@ public class UsuarioController {
 		}
 	}
 	
-	@PutMapping("/atualizar")
-	public ResponseEntity<UsuarioModel> atualizarUsuario (@Valid @RequestBody UsuarioModel atualizadoUsuario) {
-		return ResponseEntity.status(201).body(repository.save(atualizadoUsuario));
-	}
-	
 	@PutMapping("/alterar")
-	public ResponseEntity<Object> alterarUsuario(@Valid @RequestBody UsuarioDTO usuarioParaAlterar) {
+	public ResponseEntity<Object> alterar(@Valid @RequestBody UsuarioDTO usuarioParaAlterar) {
 		Optional<?> objetoAlterado = service.alterarUsuario(usuarioParaAlterar);
 		
 		if (objetoAlterado.isPresent()) {
@@ -153,8 +123,5 @@ public class UsuarioController {
 		repository.deleteById(idUsuario);
 		 
 	}
-	
-	
-	
 
 }

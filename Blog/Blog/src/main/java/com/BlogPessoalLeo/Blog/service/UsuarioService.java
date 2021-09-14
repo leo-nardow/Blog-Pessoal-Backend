@@ -44,7 +44,7 @@ public class UsuarioService {
 						String autorizacaoHeader = "Basic " + new String(autorizacaoBase64);
 						
 						usuarioParaAutenticar.setToken(autorizacaoHeader);
-						usuarioParaAutenticar.setId(usuarioexistente.getIdUsuario());
+						usuarioParaAutenticar.setIdUsuario(usuarioexistente.getIdUsuario());
 						usuarioParaAutenticar.setUsuario(usuarioexistente.getUsuario());
 						usuarioParaAutenticar.setNome(usuarioexistente.getNome());
 						usuarioParaAutenticar.setSenha(usuarioexistente.getSenha());
@@ -59,12 +59,12 @@ public class UsuarioService {
 	}
 	
 	public Optional<?> alterarUsuario(UsuarioDTO usuarioParaAlterar) {
-		return repository.findById(usuarioParaAlterar.getId())
+		return repository.findById(usuarioParaAlterar.getIdUsuario())
 				.map(usuarioexistente -> {
 					BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 					String senhaCriptografada = encoder.encode(usuarioParaAlterar.getSenha());
 					
-					usuarioexistente.setUsuario(usuarioParaAlterar.getUsuario());
+					usuarioexistente.setNome(usuarioParaAlterar.getNome());
 					usuarioexistente.setSenha(senhaCriptografada);
 					
 					return Optional.ofNullable(repository.save(usuarioexistente));
