@@ -48,6 +48,8 @@ public class UserService {
 						userForAuthentication.setIdUser(existingUser.getIdUser());
 						userForAuthentication.setName(existingUser.getName());
 						userForAuthentication.setPassword(existingUser.getPassword());
+						userForAuthentication.setPhoto(existingUser.getPhoto());
+						userForAuthentication.setType(existingUser.getType());
 						
 						return Optional.ofNullable(userForAuthentication);
 					} else {

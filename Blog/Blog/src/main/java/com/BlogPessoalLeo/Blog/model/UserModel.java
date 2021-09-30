@@ -29,12 +29,32 @@ public class UserModel {
 	private @NotBlank String name;
 	private @NotBlank String email;
 	private @NotBlank String password;
+	private String photo;
+	private String type;
 
-	public UserModel(Long idUser, String name, String email, String password) {
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public UserModel(Long idUser, String name, String email, String password, String photo, String type) {
 		this.idUser = idUser;
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.photo = photo;
+		this.type = type;
 	}
 
 	@OneToMany(mappedBy = "creator", cascade = CascadeType.REMOVE)

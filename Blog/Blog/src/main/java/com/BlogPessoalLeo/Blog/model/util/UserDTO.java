@@ -10,6 +10,24 @@ public class UserDTO {
 	private Long idUser;
 	private String name;
 	private String token;
+	private String photo;
+	private String type;
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public String getEmail() {
 		return email;
