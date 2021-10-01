@@ -21,8 +21,9 @@ import com.BlogPessoalLeo.Blog.model.PostModel;
 import com.BlogPessoalLeo.Blog.repository.PostRepository;
 
 @RestController
-@RequestMapping("/post")
 @CrossOrigin("*")
+@RequestMapping("/post")
+
 public class PostController {
 	
 	private @Autowired PostRepository repository;
